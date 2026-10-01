@@ -14,19 +14,13 @@ module top #(
     output wire       led_red
 );
 
-    // Synchronize asynchronous reset input.
     (* ASYNC_REG = "TRUE" *) reg btn_reset_sync0;
     (* ASYNC_REG = "TRUE" *) reg btn_reset_sync1;
     wire rst_sync;
 
     always @(posedge clk) begin
-        if (rst_sync) begin
-            btn_reset_sync0 <= 1'b0;
-            btn_reset_sync1 <= 1'b0;
-        end else begin
-            btn_reset_sync0 <= btn_reset;
-            btn_reset_sync1 <= btn_reset_sync0;
-        end
+        btn_reset_sync0 <= btn_reset;
+        btn_reset_sync1 <= btn_reset_sync0;
     end
 
     assign rst_sync = btn_reset_sync1;
